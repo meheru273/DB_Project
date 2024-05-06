@@ -20,10 +20,11 @@ CREATE TABLE product_details (
     product_id INTEGER PRIMARY KEY,
     product_name VARCHAR(100),
     price DECIMAL(15, 2) NOT NULL,
-    quantity INTEGER, 
-    exp_date DATE NOT NULL,
+    quantity INTEGER,
+    exp_date DATE NOT NULL CHECK (exp_date > CURRENT_DATE),
     description VARCHAR(200)
-    );
+);
+
 
 -- Order Details Table
 CREATE TABLE order_details (
