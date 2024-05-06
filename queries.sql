@@ -29,9 +29,9 @@ alter table customer_details modify customer_location varchar(23);
 
 select * from product_details where product_id=(select product_id from order_details where customer_id=( select customer_id from customer_details where name='Jhon Doe'));
 
---update product_details table  
+--update customer_details table  
 
-update product_details set password=44 where product_id=3;
+update customer_details set password=44 where customer_id=3;
 
 --delete from product_details table 
 insert into product_details(product_id,product_name,price,quantity)values(10,'stove',58,125);
@@ -76,17 +76,19 @@ select quantity,avg(price) from order_details group by quantity having avg(price
 
 --nested subquery to find customers who ordered a specific product
 
-SELECT product_details.*FROM product_details WHERE product_name = 'M'AND product_id IN (
+SELECT product_details.*FROM product_details WHERE product_name LIKE '%nd%'AND product_id IN (
 SELECT order_details.product_id FROM order_details WHERE order_details.customer_id IN (
-SELECT customer_id FROM customer_details WHERE name LIKE '%ne%'));
+SELECT customer_id FROM customer_details WHERE name LIKE '%er%'));
+
 
 
 
 --set membership to find a product with particular name
 
-SELECT product_details.*FROM product_details WHERE product_name = 'M'AND product_id IN (
+SELECT product_details.*FROM product_details WHERE product_name = '%nd%'AND product_id IN (
 SELECT order_details.product_id FROM order_details WHERE order_details.customer_id IN (
-SELECT customer_id FROM customer_details WHERE name LIKE '%ne%'));
+SELECT customer_id FROM customer_details WHERE name LIKE '%er%'));
+
 
 
 

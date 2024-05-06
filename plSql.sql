@@ -75,7 +75,7 @@ END;
 
 
 -- plsql eles if 
-          SET SERVEROUTPUT ON;
+SET SERVEROUTPUT ON;
 DECLARE
   old_price product_details.price%TYPE;
   new_price product_details.price%TYPE;
@@ -95,24 +95,18 @@ END;
 
 --trigger 
 
-DROP TRIGGER fix_product;
-CREATE OR REPLACE TRIGGER fix_product
-BEFORE UPDATE OR INSERT ON order_details
+CREATE OR REPLACE TRIGGER update_delivery_status
+BEFORE UPDATE OF startdate, enddate ON delivery_details
 FOR EACH ROW
 BEGIN
-  IF :NEW.price > 500 THEN
-    :NEW.quantity := 2;
-  ELSIF :NEW.price BETWEEN 400 AND 500 THEN
-    :NEW.quantity := 3;
- ELSIF :NEW.price BETWEEN 300 AND 400 THEN
-    :NEW.quantity  := 4;
- ELSIF :NEW.price BETWEEN 200 AND 300 THEN
-    :NEW.quantity  := 5;
-  ELSE
-    :NEW.quantity  := 6;
-  END IF;
+    IF :NEW.enddate IS NOT NULL AND :NEW.enddate <= SYSDATE THEN
+        :NEW.status := 'delivered';
+    ELSIF :NEW.startdate IS NOT NULL AND :NEW.startdate <= SYSDATE THEN
+        :NEW.status := 'processing';
+    END IF;
 END;
 /
+
 
 
 INSERT INTO order_details(order_id, customer_id, product_id, supplier_id, price, quantity) VALUES(18, 118, 28, 8, 1000, null);
