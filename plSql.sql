@@ -108,7 +108,6 @@ END;
 /
 
 
-
 INSERT INTO order_details(order_id, customer_id, product_id, supplier_id, price, quantity) VALUES(18, 118, 28, 8, 1000, null);
 
 

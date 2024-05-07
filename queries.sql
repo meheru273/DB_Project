@@ -68,7 +68,7 @@ select sum(quantity) from product_details;
 
 
 --group by 
-select quantity,avg(price) from order_details group by quantity;
+select transaction_id,avg(price) from payment_details group by transaction_id;
 
 --having 
 select quantity,avg(price) from order_details group by quantity having avg(price)>100;
@@ -85,9 +85,10 @@ SELECT customer_id FROM customer_details WHERE name LIKE '%er%'));
 
 --set membership to find a product with particular name
 
-SELECT product_details.*FROM product_details WHERE product_name = '%nd%'AND product_id IN (
-SELECT order_details.product_id FROM order_details WHERE order_details.customer_id IN (
+SELECT product_details.* FROM product_details WHERE product_name LIKE '%nd%' AND product_id IN 
+(SELECT order_details.product_id FROM order_details WHERE order_details.customer_id IN (
 SELECT customer_id FROM customer_details WHERE name LIKE '%er%'));
+
 
 
 
@@ -97,16 +98,15 @@ select * from supplier_details where supplier_id> some(select supplier_id from s
 select * from supplier where supplier_id > all(select supplier_id from supplier_details where supplier_id>=14);
 
 
---join operation to show all products from product_details and customer_details
+--join operation to show all products from product_details and order_details
 
-select * from product_details natural join customer_details where product_id=7;
-
-select product_name,name from product_details join customer_details on product_details.product_id=customer_details.product_id;
+SELECT * FROM product_details JOIN order_details 
+ON product_details.product_id = order_details.product_id WHERE product_details.product_id = 21;
 
 
 
 --view 
-create view product_details as select product_id,product_name from product;
+create view products as select product_id,product_name from product_details;
 
 
 
