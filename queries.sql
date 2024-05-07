@@ -67,10 +67,10 @@ select avg(price) from product_details;
 select sum(quantity) from product_details;
 
 
---group by 
+--group by price by transaction id 
 select transaction_id,avg(price) from payment_details group by transaction_id;
 
---having 
+--having quantity using average price
 select quantity,avg(price) from order_details group by quantity having avg(price)>100;
 
 
